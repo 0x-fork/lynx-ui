@@ -12,22 +12,26 @@ import {
 } from '@lynx-js/lynx-ui'
 import type { SheetRootRef } from '@lynx-js/lynx-ui'
 
-import { ActionButton, SnapButton, TriggerButton } from '../shared/index.js'
+import { ActionButton, TriggerButton } from '../shared/index.js'
 
 import './index.css'
 
-const snapPoints = ['40%', '60%', '90%']
+const snapPoints = ['fit']
+const claimedGestureAngles: [number, number][] = [[-135, -45], [45, 135]]
+
+const longText =
+  'This example demonstrates a tablet-friendly Sheet layout. The content is constrained with a max-width so it stays readable on larger screens. '
+    .repeat(10)
 
 function App() {
   const sheetRef = useRef<SheetRootRef>(null)
 
   return (
     <view className='container lunaris-dark'>
-      <text className='title-text'>Imperative Sheet</text>
-
+      <text className='title-text'>Sheet Tablet</text>
       <TriggerButton
-        text='Open Sheet (via ref)'
         onClick={() => sheetRef.current?.show()}
+        text='Open Sheet (via ref)'
       />
 
       <SheetRoot
@@ -43,49 +47,24 @@ function App() {
         }}
         snapPoints={snapPoints}
         initialSnap={0}
+        claimedGestureAngles={claimedGestureAngles}
         onSnapChange={(snapIndex, snapValue) => {
           console.log(snapIndex, snapValue)
         }}
       >
         <SheetView className='sheet-viewport'>
-          <SheetBackdrop className='sheet-overlay' clickToClose={true} />
+          <SheetBackdrop className='sheet-overlay' />
           <SheetContent
             className='sheet-content'
             innerClassName='sheet-inner-content'
-            snapAnimation={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
             <SheetHandle className='sheet-handle' />
             <view className='control-panel'>
-              <text className='header-text'>
-                Imperative Methods
-              </text>
-
-              <view className='button-group'>
-                <SnapButton
-                  text='40%'
-                  onClick={() => sheetRef.current?.snapTo(0)}
-                />
-                <SnapButton
-                  text='60%'
-                  onClick={() => sheetRef.current?.snapTo(1)}
-                />
-                <SnapButton
-                  text='90%'
-                  onClick={() => sheetRef.current?.snapTo(2)}
-                />
-                <SnapButton
-                  text='Expand (Max)'
-                  onClick={() => sheetRef.current?.expand()}
-                />
-                <SnapButton
-                  text='Collapse (Min)'
-                  onClick={() => sheetRef.current?.collapse()}
-                />
-              </view>
-
+              <text className='header-text'>Sheet with Long Content</text>
+              <text className='info-text'>{longText}</text>
               <ActionButton
-                text='Close'
                 onClick={() => sheetRef.current?.close()}
+                text='Close via Ref'
               />
             </view>
           </SheetContent>
