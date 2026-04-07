@@ -27,9 +27,9 @@ function SwiperEntry(): JSX.Element {
   const swiperRef = useRef<SwiperRef>(null)
 
   return (
-    <view class='container lunaris-dark'>
-      <view class='top-area' />
-      <view class='content-area'>
+    <view className='demo-container lunaris-dark'>
+      <view className='top-area' />
+      <view className='content-area'>
         <Swiper
           ref={swiperRef}
           data={itemArr}
@@ -65,7 +65,7 @@ function SwiperEntry(): JSX.Element {
           count={itemArr.length}
         />
       </view>
-      <view class='operation'>
+      <view className='operation'>
         <Button
           onClick={() => {
             swiperRef.current?.swipePrev()
@@ -82,7 +82,7 @@ function SwiperEntry(): JSX.Element {
           text='SwipeNext'
         />
       </view>
-      <view class='sub-operation'>
+      <view className='sub-operation'>
         <Button
           onClick={() => {
             setItemWidthsIndex(prev => (prev + 1) % itemWidths.length)
