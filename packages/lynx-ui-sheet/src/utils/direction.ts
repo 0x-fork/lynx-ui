@@ -88,6 +88,20 @@ export function getMainAxisLayoutSize(
     : event.detail?.height ?? event.params?.height ?? 0
 }
 
+export function getMaxSnapSize(
+  snapPoints: number[],
+  fitSize = 0,
+) {
+  let max = fitSize
+  for (const snapPoint of snapPoints) {
+    const value = snapPoint === -1 ? fitSize : snapPoint
+    if (value > max) {
+      max = value
+    }
+  }
+  return max
+}
+
 export function getMainAxisTouchCoordinate(
   side: SheetResolvedSide,
   detail: Pick<MainThread.TouchEvent['detail'], 'x' | 'y'>,
@@ -111,7 +125,6 @@ export function getNextMainAxisOffset(
 export function getSheetTransform(
   side: SheetResolvedSide,
   value: number,
-  viewportSize: number,
 ) {
   'main thread'
   if (side === 'bottom') {
@@ -121,7 +134,7 @@ export function getSheetTransform(
     return `translate(0px, ${value}px)`
   }
   if (side === 'left') {
-    return `translate(${value - viewportSize}px, 0px)`
+    return `translate(${value}px, 0px)`
   }
-  return `translate(${viewportSize - value}px, 0px)`
+  return `translate(${-value}px, 0px)`
 }

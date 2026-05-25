@@ -99,6 +99,8 @@ export function SheetContent(props: SheetContentProps) {
     getResolvedSnapOffsets,
     getResolvedSnapPointValues,
     handleSheetLayoutChangeMT,
+    setContentMTRef,
+    maxSnapSize,
     // Controller exports
     onDragStartMT,
     onDragEndSnapMT,
@@ -199,16 +201,23 @@ export function SheetContent(props: SheetContentProps) {
     }),
     [handleTouchStartMT, handleTouchMoveMT, handleTouchEndMT],
   )
+  const hasFitSnapPoint = snapPoints.some(p => String(p).trim() === 'fit')
 
   const horizontalContent = (
     <view
       {...rest}
       className={innerClassName}
       style={{
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        ...(resolvedSide === 'left' ? { right: 0 } : { left: 0 }),
         height: '100%',
         ...innerStyle,
+        ...(hasFitSnapPoint ? {} : { width: `${maxSnapSize}px` }),
       }}
       event-through={false}
+      main-thread:ref={setContentMTRef}
       main-thread:bindtouchstart={handleOnly ? undefined : handleTouchStartMT}
       main-thread:bindtouchmove={handleOnly ? undefined : handleTouchMoveMT}
       main-thread:bindtouchend={handleOnly ? undefined : handleTouchEndMT}
@@ -227,18 +236,13 @@ export function SheetContent(props: SheetContentProps) {
         style={{
           position: 'absolute',
           top: 0,
-          left: 0,
-          width: '100vw',
+          ...(resolvedSide === 'left'
+            ? { right: '100%' }
+            : { left: '100%' }),
+          width: '150vw',
           height: '100vh',
           overflow: 'hidden',
-          transform: resolvedSide === 'left'
-            ? `translate(${-viewportSize}px, 0px)`
-            : `translate(${viewportSize}px, 0px)`,
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: resolvedSide === 'left'
-            ? 'flex-end'
-            : 'flex-start',
+          transform: 'translate(0px, 0px)',
           ...style,
         }}
         main-thread:ref={setSheetMTRef}
@@ -254,6 +258,8 @@ export function SheetContent(props: SheetContentProps) {
     <view
       className={className}
       style={{
+        position: 'absolute',
+        left: 0,
         ...(isTop
           ? {
             bottom: '100%',
@@ -264,8 +270,10 @@ export function SheetContent(props: SheetContentProps) {
           : {
             top: '100%',
           }),
-        height: '100vh',
+        width: '100vw',
+        height: '150vh',
         overflow: 'hidden',
+        transform: 'translate(0px, 0px)',
         ...style,
       }}
       main-thread:ref={setSheetMTRef}
@@ -281,7 +289,9 @@ export function SheetContent(props: SheetContentProps) {
         style={{
           width: '100%',
           ...innerStyle,
+          ...(hasFitSnapPoint ? {} : { height: `${maxSnapSize}px` }),
         }}
+        main-thread:ref={setContentMTRef}
         main-thread:bindlayoutchange={handleSheetLayoutChangeMT}
       >
         <SheetDragContext.Provider value={contextValue}>

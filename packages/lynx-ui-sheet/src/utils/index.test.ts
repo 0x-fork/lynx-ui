@@ -9,6 +9,7 @@ import {
   getDefaultRubberBand,
   getMainAxisLayoutSize,
   getMainAxisSize,
+  getMaxSnapSize,
   getNextMainAxisOffset,
   getSheetTransform,
   resolveSheetSide,
@@ -71,6 +72,12 @@ describe('sheet side utils', () => {
     ).toBe(260)
   })
 
+  it('uses the highest resolved snap point as the stable layout size', () => {
+    expect(getMaxSnapSize([400, 800])).toBe(800)
+    expect(getMaxSnapSize([400, -1, 800], 520)).toBe(800)
+    expect(getMaxSnapSize([400, -1, 800], 920)).toBe(920)
+  })
+
   it('uses vertical gesture angles for vertical sheets', () => {
     expect(getDefaultClaimedGestureAngles('top')).toEqual([
       [-134, -46],
@@ -104,17 +111,17 @@ describe('sheet side utils', () => {
   })
 
   it('computes the expected transforms for each resolved side', () => {
-    expect(getSheetTransform('top', 120, 360)).toBe(
+    expect(getSheetTransform('top', 120)).toBe(
       'translate(0px, 120px)',
     )
-    expect(getSheetTransform('bottom', 120, 360)).toBe(
+    expect(getSheetTransform('bottom', 120)).toBe(
       'translate(0px, -120px)',
     )
-    expect(getSheetTransform('left', 120, 360)).toBe(
-      'translate(-240px, 0px)',
+    expect(getSheetTransform('left', 120)).toBe(
+      'translate(120px, 0px)',
     )
-    expect(getSheetTransform('right', 120, 360)).toBe(
-      'translate(240px, 0px)',
+    expect(getSheetTransform('right', 120)).toBe(
+      'translate(-120px, 0px)',
     )
   })
 })
