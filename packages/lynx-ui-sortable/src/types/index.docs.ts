@@ -29,6 +29,61 @@ export interface SortableData<T> {
 
 export interface SortableRootProps<T> {
   /**
+   * Specifies which container element SortableRoot should render and own as the scrollable boundary.
+   * - `'ScrollView'`: render an internal vertical `scroll-view`.
+   * - Omit (default): render a plain `view` without scrolling capability.
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh 指定 SortableRoot 渲染并持有的滚动容器类型。
+   * - `'ScrollView'`：渲染一个内部的纵向 `scroll-view`。
+   * - 不传（默认）：渲染普通 `view`，不带滚动能力。
+   */
+  as?: 'ScrollView'
+  /**
+   * Class name applied to the owned `scroll-view` when `as` is `'ScrollView'`.
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh `as` 为 `'ScrollView'` 时应用到内部 `scroll-view` 的类名。
+   */
+  scrollableClassName?: string
+  /**
+   * Class name applied to the owned content boundary view when `as` is `'ScrollView'`.
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh `as` 为 `'ScrollView'` 时应用到内部内容边界 view 的类名。
+   */
+  scrollableContentClassName?: string
+  /**
+   * Whether the owned `scroll-view` can be scrolled by user gestures.
+   * @defaultValue true
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh 内部 `scroll-view` 是否允许用户手势滚动。
+   */
+  scrollableEnableScroll?: boolean
+  /**
+   * Distance between the dragged item and the upper edge of the owned or configured scrollable boundary while auto-scrolling upward.
+   * @defaultValue 0
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh 向上自动滚动时，拖拽项与可滚动边界上边缘之间保持的距离。
+   */
+  scrollableStickyUpperOffset?: number
+  /**
+   * Distance between the dragged item and the lower edge of the owned or configured scrollable boundary while auto-scrolling downward.
+   * @defaultValue 0
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh 向下自动滚动时，拖拽项与可滚动边界下边缘之间保持的距离。
+   */
+  scrollableStickyLowerOffset?: number
+  /**
    * Whether to enable sorting.
    * @defaultValue true
    * @Android
@@ -61,6 +116,14 @@ export interface SortableRootProps<T> {
    * @zh 作为边界限制的项的唯一键。如果项被拖出边界，排序将被取消。
    */
   boundaryId?: string
+  /**
+   * The unique id of a scrollable boundary container. When the dragged item reaches the edge of this container, Sortable will call `scrollBy` on it so the list can continue moving with the drag direction.
+   * @Android
+   * @iOS
+   * @Harmony
+   * @zh 可滚动边界容器的唯一 id。当拖拽项触达该容器边缘时，Sortable 会对其调用 `scrollBy`，使列表随拖拽方向继续滚动。
+   */
+  scrollableBoundaryId?: string
   /**
    * Callback function that is triggered when sorting ends. The parameter is the sorted data.
    * @Android
