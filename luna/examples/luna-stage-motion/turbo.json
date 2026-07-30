@@ -1,0 +1,20 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "@lynx-js/luna-stage#build",
+        "@lynx-example/lynx-ui-popover#build"
+      ],
+      "inputs": [
+        "src/**",
+        "public/**",
+        "rsbuild.config.ts",
+        "package.json",
+        "tsconfig.json"
+      ],
+      "outputs": ["dist/**"]
+    }
+  }
+}
