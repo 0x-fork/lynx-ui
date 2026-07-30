@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "composite": true,
+
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+
+    "strict": true,
+    "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": true,
+
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/luna-core/tsconfig.build.json",
+    },
+    {
+      "path": "./packages/luna-tokens/tsconfig.build.json",
+    },
+    {
+      "path": "./packages/luna-styles/tsconfig.json",
+    },
+    {
+      "path": "./packages/luna-tailwind/tsconfig.build.json",
+    },
+    {
+      "path": "./packages/luna-reactlynx/tsconfig.build.json",
+    },
+  ],
+}
